@@ -1,0 +1,19 @@
+[project]
+name = "django_site"
+version = "1.0.0"
+description = "Application web en utilisant DJANGO"
+authors = [
+    {name = "Yassine ELKHALKI", email = "yassine.elkhalki@outlook.fr"},
+]
+dependencies = []
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true

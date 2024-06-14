@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load i18n %}
+<html lang="{% get_current_language %}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Articles" %}</title>
+</head>
+<body>
+    <h1>{% trans "Articles" %}</h1>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.content }}</p>
+                <p>{{ article.publication_date }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}">
+        <select name="language">
+            {% for lang in LANGUAGES %}
+                <option value="{{ lang.0 }}">{{ lang.1 }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="{% trans 'Change language' %}">
+    </form>
+</body>
+</html>

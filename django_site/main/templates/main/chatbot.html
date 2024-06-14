@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="{% get_current_language %}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Chatbot" %}</title>
+</head>
+<body>
+    <h1>{% trans "Chatbot" %}</h1>
+    <form id="chat-form" method="post">
+        {% csrf_token %}
+        <label for="question">{% trans "Ask a question:" %}</label>
+        <input type="text" id="question" name="question" required>
+        <button type="submit">{% trans "Submit" %}</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('chat-form').onsubmit = async function(event) {
+            event.preventDefault();
+            const responseDiv = document.getElementById('response');
+            const question = document.getElementById('question').value;
+
+            const response = await fetch("{% url 'chatbot' %}", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                body: JSON.stringify({question: question}),
+            });
+            const data = await response.json();
+            responseDiv.innerHTML = `<p>${data.answer}</p>`;
+        };
+    </script>
+</body>
+</html>
